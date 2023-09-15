@@ -4,8 +4,6 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { ActiveUsersComponent } from './active-users/active-users.component';
-import { InactiveUsersComponent } from './inactive-users/inactive-users.component';
 import { UserService } from './user.service';
 
 
@@ -15,7 +13,7 @@ import { UserService } from './user.service';
     ReactiveFormsModule
   ],
   declarations: [
-    AppComponent,ActiveUsersComponent,InactiveUsersComponent
+    AppComponent
   ],
   bootstrap: [ AppComponent ],
   providers:[UserService]
