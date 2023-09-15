@@ -4,22 +4,15 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { UserService } from './user.service';
-
+import { DataService } from './data.service';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    ReactiveFormsModule
-  ],
-  declarations: [
-    AppComponent
-  ],
-  bootstrap: [ AppComponent ],
-  providers:[UserService]
+  imports: [BrowserModule, ReactiveFormsModule],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
+  providers: [DataService],
 })
-export class AppModule { }
-
+export class AppModule {}
 
 /*
 Copyright Google LLC. All Rights Reserved.
