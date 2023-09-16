@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,17 +11,97 @@ import { map } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   constructor() {}
 
-  numbers = from([1, 2, 3, 4, 5]);
+  observable = of(1, 2, 3, 4);
+  observable1 = of([1, 2, 3, 4]);
+
+  numbers = from([1, 2, 3, 4]);
+  numbers1 = from([
+    { name: 'bittu', city: 'blr' },
+    { name: 'bittu', city: 'blr' },
+  ]);
+  numbers2 = from('hello');
+  numbers3 = from(new Promise((resolve, reject) => resolve('hello')));
+  numbers4 = from(fetch('https://jsonplaceholder.typicode.com/users/1'));
 
   ngOnInit() {
+    // of
+    this.observable.subscribe((data) => {
+      console.log('of', data);
+    });
+    // 1 2 3 4
+
+    this.observable1.subscribe((data) => {
+      console.log(data);
+    });
+    // [1,2,3,4]
+
+    // from
+    this.numbers.subscribe((data) => {
+      console.log('from', data);
+    });
+
+    this.numbers1.subscribe((data) => {
+      console.log('from', data);
+    });
+
+    this.numbers2.subscribe((data) => {
+      console.log(data);
+    });
+
+    this.numbers3.subscribe((data) => {
+      console.log(data);
+    });
+
+    this.numbers4.subscribe((data) => {
+      let numbers5 = from(data.json());
+      numbers5.subscribe((data) => {
+        console.log(data);
+      });
+    });
+
+    //map and pipe
+
     this.numbers
       .pipe(
         map(function (x) {
           return x * 2;
+        }),
+        filter(function (x) {
+          return x > 2;
         })
       )
       .subscribe((data) => {
-        console.log(data);
+        console.log('pipe- map, filter operators', data);
+      });
+
+    this.observable
+      .pipe(
+        map(function (value) {
+          return value * 2;
+        })
+      )
+      .subscribe((data) => {
+        console.log('map in number', data);
+      });
+
+    this.observable1
+      .pipe(
+        map(function (array) {
+          return array.map((value) => value * 2);
+        })
+      )
+      .subscribe((data) => {
+        console.log('map in array', data);
+      });
+
+    this.observable.pipe(filter((value) => value > 2)).subscribe((data) => {
+      console.log('filter data in number', data);
+    });
+
+    this.observable1
+      .pipe(filter((num: any) => num % 2 === 3))
+      .subscribe((data) => {
+        console.log('filter data in array', data);
       });
   }
 }
