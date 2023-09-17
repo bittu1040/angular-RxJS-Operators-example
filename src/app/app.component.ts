@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { from, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
       });
     });
 
-    //map and pipe
+    //pipe, map and filter
 
     this.numbers
       .pipe(
@@ -98,10 +98,20 @@ export class AppComponent implements OnInit {
       console.log('filter data in number', data);
     });
 
-    this.observable1
-      .pipe(filter((num: any) => num % 2 === 3))
-      .subscribe((data) => {
-        console.log('filter data in array', data);
-      });
+    this.numbers.pipe(filter((value) => value > 2)).subscribe((data) => {
+      console.log('filter data in numbers', data);
+    });
+
+    //first
+    this.observable.pipe(first()).subscribe((data) => {
+      console.log('first operator', data);
+    });
+
+    this.observable1.pipe(first()).subscribe((data) => {
+      console.log('first operator', data);
+    });
+
+    //interval
+    
   }
 }
