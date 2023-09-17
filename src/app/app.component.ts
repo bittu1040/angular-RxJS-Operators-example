@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { from, of } from 'rxjs';
+import { from, interval, of } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 
 @Component({
@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   numbers2 = from('hello');
   numbers3 = from(new Promise((resolve, reject) => resolve('hello')));
   numbers4 = from(fetch('https://jsonplaceholder.typicode.com/users/1'));
+  source = interval(1000);
 
   ngOnInit() {
     // of
@@ -112,6 +113,6 @@ export class AppComponent implements OnInit {
     });
 
     //interval
-    
+    // const subscribe = this.source.subscribe(val => console.log(val));
   }
 }
