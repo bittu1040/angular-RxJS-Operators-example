@@ -1,14 +1,15 @@
 import { OnInit } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
-import { from, interval, of } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { from, interval, of, Subscription } from 'rxjs';
+import { filter, first, map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   constructor() {}
 
   observable = of(1, 2, 3, 4);
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit {
   numbers3 = from(new Promise((resolve, reject) => resolve('hello')));
   numbers4 = from(fetch('https://jsonplaceholder.typicode.com/users/1'));
   source = interval(1000);
+  subscribe: Subscription;
+  takeFourNumber: Subscription;
 
   ngOnInit() {
     // of
@@ -113,6 +116,18 @@ export class AppComponent implements OnInit {
     });
 
     //interval
-    // const subscribe = this.source.subscribe(val => console.log(val));
+    // -- uncomment below line and observe output
+    // this.subscribe = this.source.subscribe((val) => console.log(val));
+
+    //take
+    this.takeFourNumber = this.source.pipe(take(4)).subscribe((data) => {
+      console.log(data);
+    });
+
+    //combine latest
+  }
+
+  ngOnDestroy() {
+    this.subscribe.unsubscribe();
   }
 }
