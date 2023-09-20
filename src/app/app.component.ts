@@ -125,6 +125,10 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     //combine latest
+
+    // forkJoin
+
+    // conat
   }
 
   ngOnDestroy() {
