@@ -1,7 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { OnInit } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
-import { from, interval, of, Subscription } from 'rxjs';
+import { forkJoin, from, interval, of, Subscription } from 'rxjs';
 import { filter, first, map, take } from 'rxjs/operators';
 
 @Component({
@@ -10,7 +11,7 @@ import { filter, first, map, take } from 'rxjs/operators';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   observable = of(1, 2, 3, 4);
   observable1 = of([1, 2, 3, 4]);
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   source = interval(1000);
   subscribe: Subscription;
   takeFourNumber: Subscription;
+  response = [];
 
   ngOnInit() {
     // of
@@ -124,9 +126,43 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log(data);
     });
 
-    //combine latest
-
     // forkJoin
+
+    const request1 = this.http.get(
+      'https://jsonplaceholder.typicode.com/users/1'
+    );
+    const request2 = this.http.get(
+      'https://jsonplaceholder.typicode.com/users/2'
+    );
+    const request3 = this.http.get(
+      'https://jsonplaceholder.typicode.com/users/3'
+    );
+    const request4 = this.http.get(
+      'https://jsonplaceholder.typicode.com/users/4'
+    );
+
+    forkJoin([request1, request2, request3, request4]).subscribe(
+      (data) => {
+        this.response = data;
+        console.log(this.response);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+
+    forkJoin([request1, request2, request3]).subscribe(
+      ([result1, result2, result3]) => {
+        console.log('Result 1:', result1);
+        console.log('Result 2:', result2);
+        console.log('Result 3:', result3);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+
+    //combine latest
 
     // conat
   }
