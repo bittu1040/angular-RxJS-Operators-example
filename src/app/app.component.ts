@@ -3,7 +3,14 @@ import { OnInit } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { forkJoin, from, interval, of, Subscription } from 'rxjs';
-import { filter, first, map, take } from 'rxjs/operators';
+import { catchError, filter, first, map, take } from 'rxjs/operators';
+
+export interface Todo {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
 
 @Component({
   selector: 'app-root',
@@ -28,6 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
   subscribe: Subscription;
   takeFourNumber: Subscription;
   response = [];
+  todos: number[] = [1, 3, 5, 7, 9];
+  viewValues: Todo[];
 
   ngOnInit() {
     // of
@@ -162,6 +171,8 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.getTodos();
+
     //combine latest
 
     // conat
@@ -169,5 +180,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscribe.unsubscribe();
+  }
+
+  getTodos() {
+    // try to make url wrong and observe the html output
+    const todos = this.todos.map((t) =>
+      this.http.get<Todo>(`https://jsonplaceholder.typicode.com/todos/${t}`)
+    );
+    forkJoin(todos)
+      .pipe(catchError((err) => of(err)))
+      .subscribe((resp) => (this.viewValues = resp));
   }
 }
