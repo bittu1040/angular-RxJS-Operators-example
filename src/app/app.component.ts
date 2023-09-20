@@ -37,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   response = [];
   todos: number[] = [1, 3, 5, 7, 9];
   viewValues: Todo[];
+  showError = false;
 
   ngOnInit() {
     // of
@@ -153,7 +154,7 @@ export class AppComponent implements OnInit, OnDestroy {
     forkJoin([request1, request2, request3, request4]).subscribe(
       (data) => {
         this.response = data;
-        console.log(this.response);
+        console.log('cc', this.response);
       },
       (error) => {
         console.error('Error:', error);
@@ -184,11 +185,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getTodos() {
     // try to make url wrong and observe the html output
+    // you can use *ngIf in html and based on the showError condition-
+    // and you can use err object or any other object for default value inside of operator to display UI
     const todos = this.todos.map((t) =>
       this.http.get<Todo>(`https://jsonplaceholder.typicode.com/todos/${t}`)
     );
     forkJoin(todos)
-      .pipe(catchError((err) => of(err)))
+      .pipe(
+        catchError((err) => {
+          console.log('err', err);
+          this.showError = true;
+          return of(err);
+        })
+      )
       .subscribe((resp) => (this.viewValues = resp));
   }
 }
