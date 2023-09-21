@@ -1,5 +1,81 @@
 <h1 style="text-align:center;">RxJS Operators</h1>
 
+<br /><br />
+<hr />
+
+combineLatest Example
+<br />
+<br />
+
+<table>
+  <thead>
+    <tr>
+      <th>Observable 1</th>
+      <th>Observable 2</th>
+      <th>Observable 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let val of combinedValues">
+      <td>{{ val[0] }}</td>
+      <td>{{ val[1] }}</td>
+      <td>{{ val[2] }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+<table>
+  <thead>
+    <tr>
+      <th>Timer 1</th>
+      <th>Timer 2</th>
+      <th>Timer 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ combinedLatestSingleValues[0] }}</td>
+      <td>{{ combinedLatestSingleValues[1] }}</td>
+      <td>{{ combinedLatestSingleValues[2] }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+<br>
+forkjoin
+<table>
+  <thead>
+    <tr>
+      <th>Timer 1</th>
+      <th>Timer 2</th>
+      <th>Timer 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ forkJoinValues[0] }}</td>
+      <td>{{ forkJoinValues[1] }}</td>
+      <td>{{ forkJoinValues[2] }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<hr>
+
+
+forkJoin example
+<pre>
+  {{ viewValues | json }}
+</pre>
+
+<br /><br />
+<hr />
+
 <h4>There is two types of operators</h4>
 <h5>creation operator</h5>
 <h5>pipeable operator</h5>
@@ -10,11 +86,3 @@
   <li>pipe</li>
   <li>map</li>
 </ul>
-
-<br /><br />
-<hr />
-
-forkJoin example
-<pre>
-  {{ viewValues | json }}
-</pre>

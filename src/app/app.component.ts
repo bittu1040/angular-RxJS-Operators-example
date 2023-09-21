@@ -2,7 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { OnInit } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
-import { forkJoin, from, interval, of, Subscription } from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  from,
+  interval,
+  of,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { catchError, filter, first, map, take } from 'rxjs/operators';
 
 export interface Todo {
@@ -38,6 +46,9 @@ export class AppComponent implements OnInit, OnDestroy {
   todos: number[] = [1, 3, 5, 7, 9];
   viewValues: Todo[];
   showError = false;
+  combinedValues: any[] = [];
+  combinedLatestSingleValues: any[] = [];
+  forkJoinValues: any[] = [];
 
   ngOnInit() {
     // of
@@ -175,6 +186,32 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getTodos();
 
     //combine latest
+    //timerOne emits first value at 6s, then once every 4s
+    const timer1 = timer(6000, 4000).pipe(take(4));
+    //timerTwo emits first value at 5s, then once every 4s
+    const timer2 = timer(5000, 4000).pipe(take(5));
+    //timerThree emits first value at 7s, then once every 4s
+    const timer3 = timer(7000, 4000).pipe(take(3));
+
+    //when one timer emits, emit the latest values from each timer as an array
+    combineLatest([timer1, timer2, timer3]).subscribe(
+      ([timerValOne, timerValTwo, timerValThree]) => {
+        this.combinedLatestSingleValues = [
+          timerValOne,
+          timerValTwo,
+          timerValThree,
+        ];
+        console.log('latest value', this.combinedLatestSingleValues);
+      }
+    );
+
+    combineLatest([timer1, timer2, timer3]).subscribe((val) => {
+      this.combinedValues.push(val);
+    });
+
+    forkJoin([timer1, timer2, timer3]).subscribe((val) => {
+      this.forkJoinValues.push(val);
+    });
 
     // conat
   }
