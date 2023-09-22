@@ -10,6 +10,7 @@ import {
   of,
   Subscription,
   timer,
+  concat,
 } from 'rxjs';
 import { catchError, filter, first, map, take } from 'rxjs/operators';
 
@@ -213,7 +214,24 @@ export class AppComponent implements OnInit, OnDestroy {
       this.forkJoinValues.push(val);
     });
 
-    // conat
+    // concat
+    const timer12 = interval(1000).pipe(take(10));
+    const timer13 = interval(2000).pipe(take(6));
+    const timer14 = interval(500).pipe(take(10));
+
+    const result = concat(timer12, timer13, timer14);
+    result.subscribe((x) => {
+      console.log('concat', x);
+    });
+
+    const sourceA$ = of(1, 2, 3);
+    const sourceB$ = of(4, 5, 6);
+    const sourceC$ = of(7, 8, 9);
+    const source$ = concat(sourceA$, sourceB$, sourceC$);
+
+    source$.subscribe((data) => console.log(data));
+
+    // mergeMap
   }
 
   ngOnDestroy() {
