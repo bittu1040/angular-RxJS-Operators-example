@@ -1,18 +1,20 @@
 <h1 style="text-align:center;">RxJS Operators</h1>
 
-<br /><br />
+<br />
+<h2 style="text-align: center">forkJoin and combineLatest</h2>
+
 <hr />
-
-combineLatest Example
 <br />
 <br />
-
+<div style="display: flex; gap: 20px; justify-content: center; margin-left: 155px">
+  <div>
 <table>
+  <caption>CombineLatest RxJS Operator</caption>
   <thead>
     <tr>
-      <th>Observable 1</th>
-      <th>Observable 2</th>
-      <th>Observable 3</th>
+      <th>Timer 1</th>
+      <th>Timer 2</th>
+      <th>Timer 3</th>
     </tr>
   </thead>
   <tbody>
@@ -23,10 +25,11 @@ combineLatest Example
     </tr>
   </tbody>
 </table>
+  </div>
 
-<br />
-
+  <div>
 <table>
+  <caption>CombineLatest RxJS Operator</caption>
   <thead>
     <tr>
       <th>Timer 1</th>
@@ -35,18 +38,17 @@ combineLatest Example
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr *ngIf="combinedLatestSingleValues.length > 0">
       <td>{{ combinedLatestSingleValues[0] }}</td>
       <td>{{ combinedLatestSingleValues[1] }}</td>
       <td>{{ combinedLatestSingleValues[2] }}</td>
     </tr>
   </tbody>
 </table>
-
-<hr>
-<br>
-forkjoin
+  </div>
+  <div>
 <table>
+  <caption>forkJoin RxJS Operator</caption>
   <thead>
     <tr>
       <th>Timer 1</th>
@@ -55,18 +57,20 @@ forkjoin
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>{{ forkJoinValues[0] }}</td>
-      <td>{{ forkJoinValues[1] }}</td>
-      <td>{{ forkJoinValues[2] }}</td>
+    <tr *ngFor="let val of forkJoinValues">
+      <td>{{ val[0] }}</td>
+      <td>{{ val[1] }}</td>
+      <td>{{ val[2] }}</td>
     </tr>
   </tbody>
 </table>
+  </div>
+</div>
+<br />
 
-<br>
+<hr />
 
-<hr>
-
+<div style="height: 500px"></div>
 
 forkJoin example
 <pre>
